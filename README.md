@@ -104,7 +104,7 @@
 ## Day14
 학습정리
 
-- [파일 IO ]: https://www.notion.so/hgr1209/IO-e54f77011db543dc97dddc2b7bb8762e
+- [파일 입출력] https://www.notion.so/hgr1209/IO-e54f77011db543dc97dddc2b7bb8762e
 
 ## Day15
 
