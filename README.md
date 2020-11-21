@@ -86,6 +86,7 @@
 ### 미션 5
 
 - [x] 한글 시계
+- [학습 정리](https://www.notion.so/hgr1209/5-0f46209a852a44dfa77af0151e6a34ac)
 
 ## Day12
 
