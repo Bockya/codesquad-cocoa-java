@@ -2,8 +2,13 @@ package mission5_6.hangeulclock;
 
 import java.time.LocalTime;
 
-class Time {
-    LocalTime now = LocalTime.now();
-    int hour = now.getHour();
-    int minute = now.getMinute();
+public class Time {
+    public int hour;
+    public int minute;
+    public Time(){
+        LocalTime now = LocalTime.now();
+        hour =now.getHour();
+        minute =now.getMinute();
+    }
+
 }

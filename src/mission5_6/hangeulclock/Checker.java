@@ -1,6 +1,6 @@
 package mission5_6.hangeulclock;
 
-class Checker {
+public class Checker {
     boolean[][] checker = new boolean[6][6];
 
     public Checker(Time t) {
@@ -89,50 +89,25 @@ class Checker {
 
     public void checkMinute(Time t) {
         this.checker[5][5] = true; //'분'
-        switch (t.minute % 10) { //한 자릿수
-            case 1:
-                this.checker[4][1] = true; //'일'
-                break;
-            case 2:
-                this.checker[4][2] = true; //'이'
-                break;
-            case 3:
-                this.checker[4][3] = true; //'삼'
-                break;
-            case 4:
-                this.checker[4][4] = true; //'사'
-                break;
-            case 5:
-                this.checker[5][1] = true; //'오'
-                break;
-            case 6:
-                this.checker[4][5] = true; //'육'
-                break;
-            case 7:
-                this.checker[5][2] = true; //'칠'
-                break;
-            case 8:
-                this.checker[5][3] = true; //'팔'
-                break;
-            case 9:
-                this.checker[5][4] = true; //'구'
-                break;
+        //한 자릿수
+        switch (t.minute % 10) {
+            case 1 -> this.checker[4][1] = true; //'일'
+            case 2 -> this.checker[4][2] = true; //'이'
+            case 3 -> this.checker[4][3] = true; //'삼'
+            case 4 -> this.checker[4][4] = true; //'사'
+            case 5 -> this.checker[5][1] = true; //'오'
+            case 6 -> this.checker[4][5] = true; //'육'
+            case 7 -> this.checker[5][2] = true; //'칠'
+            case 8 -> this.checker[5][3] = true; //'팔'
+            case 9 -> this.checker[5][4] = true; //'구'
         }
         if (t.minute > 9) { //두 자릿수
             this.checker[3][5] = true; //'십'
             switch (t.minute / 10) {
-                case 2:
-                    this.checker[3][1] = true; //'이'
-                    break;
-                case 3:
-                    this.checker[3][2] = true; //'삼'
-                    break;
-                case 4:
-                    this.checker[3][3] = true; //'사'
-                    break;
-                case 5:
-                    this.checker[3][4] = true; //'오'
-                    break;
+                case 2 -> this.checker[3][1] = true; //'이'
+                case 3 -> this.checker[3][2] = true; //'삼'
+                case 4 -> this.checker[3][3] = true; //'사'
+                case 5 -> this.checker[3][4] = true; //'오'
             }
         }
     }
