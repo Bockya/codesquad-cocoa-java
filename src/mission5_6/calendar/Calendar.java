@@ -57,4 +57,10 @@ public class Calendar {
         System.out.println();
         System.out.println();
     }
+
+    public void printCalendar(int year) {
+        for (int i = 1; i <= 12; i++) {
+            printCalendar(year, i);
+        }
+    }
 }

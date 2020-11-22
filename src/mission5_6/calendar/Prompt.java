@@ -30,22 +30,29 @@ public class Prompt {
         int year = 2020;
         int month = 11;
         cal.printCalendar(year, month);
+        System.out.println("선택 (1: 특정 월의 달력, 2: 특정 년의 전체 달력)");
+        int choice = scanner.nextInt();
         //년도와 월 입력받아 출력
-        System.out.println("년도를 입력하세요");
-        System.out.print("YEAR> ");
-        year = scanner.nextInt();
-        System.out.println("달을 입력하세요");
-        System.out.println("MONTH> ");
-        month = scanner.nextInt();
-        if (month < 1 || month > 12) {
-            System.out.println("잘못된 입력입니다");
-            return;
+        if (choice == 1) {
+            System.out.println("년도를 입력하세요");
+            System.out.print("YEAR> ");
+            year = scanner.nextInt();
+            System.out.println("달을 입력하세요");
+            System.out.print("MONTH> ");
+            month = scanner.nextInt();
+            if (month < 1 || month > 12) {
+                System.out.println("잘못된 입력입니다");
+                return;
+            }
+            cal.printCalendar(year, month);
         }
-        cal.printCalendar(year, month);
         //특정년도 전체 달력 출력
-        year = scanner.nextInt();
-        System.out.println(year + "년 전체 달력입니다");
-        cal.printCalendar(year, month);
+        if (choice == 2) {
+            System.out.println("년도를 입력하세요");
+            year = scanner.nextInt();
+            System.out.println(year + "년 전체 달력입니다");
+            cal.printCalendar(year);
+        }
     }
 
     private void cmdClock() {
