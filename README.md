@@ -85,7 +85,8 @@
 
 ### 미션 5
 
-- [ ] 한글 시계
+- [x] 한글 시계
+[학습 정리](https://www.notion.so/hgr1209/5-0f46209a852a44dfa77af0151e6a34ac)
 
 ## Day12
 
@@ -98,23 +99,15 @@
 
 ### 미션 6
 
-- [ ] 한글 시계 + 스레드
+- [x] 한글 시계 + 스레드
+[학습 정리](https://www.notion.so/hgr1209/6-2c84db9412454b049d9ad442cd2cb492)
 - [ ] 달력
 
 ## Day14
+학습정리
 
-[파일 IO]: https://www.notion.so/hgr1209/IO-e54f77011db543dc97dddc2b7bb8762e	"파일 입출력"
+- [파일 입출력](https://www.notion.so/hgr1209/IO-e54f77011db543dc97dddc2b7bb8762e)
 
 ## Day15
 
 #### 알고리즘
-
-
-
-
-
-
-
-
-
-# codesquad-cocoa-java
