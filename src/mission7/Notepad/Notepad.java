@@ -7,7 +7,6 @@ class Notepad extends Frame {
     TextArea content;
     MenuBar mb;
     Menu mFile, mEdit, mFormat, mView, mHelp;
-    MenuItem miNew, miOpen, miSave, miSaveAs, miPageSetup, miPrint, miExit;
 
     Notepad(String title) {
         super(title);
@@ -17,28 +16,11 @@ class Notepad extends Frame {
         mb = new MenuBar();
 
         mFile = new Menu("File");
-        miNew = new MenuItem("New");
-        miOpen = new MenuItem("Open");
-        miSave = new MenuItem("Save");
-        miSaveAs = new MenuItem("SaveAs");
-        miPageSetup = new MenuItem("PageSetup");
-        miPrint = new MenuItem("Print");
-        miExit = new MenuItem("Exit");
-
+        File f = new File(mFile);
         mEdit = new Menu("Edit");
         mFormat = new Menu("Format");
         mView = new Menu("View");
         mHelp = new Menu("Help");
-
-        mFile.add(miNew);
-        mFile.add(miOpen);
-        mFile.add(miSave);
-        mFile.add(miSaveAs);
-        mFile.addSeparator(); // 메뉴 분리선
-        mFile.add(miPageSetup);
-        mFile.add(miPrint);
-        mFile.addSeparator(); // 메뉴 분리선
-        mFile.add(miExit);
 
         mb.add(mFile); // MenuBar에 Menu 추가
         mb.add(mEdit); // MenuBar에 Edit 추가
