@@ -1,8 +1,13 @@
 package Notepad;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.EventHandler;
+
+import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
 
 public class Notepad extends Frame {
     public Notepad() {
@@ -19,6 +24,9 @@ public class Notepad extends Frame {
         java.awt.MenuItem miNew, miOpen, miSaveAs, miExit;
 
         Menu(String title) {
+            content = new TextArea();
+            add(content);
+
             mb = new MenuBar();
             mFile = new java.awt.Menu("파일(F)");
 
@@ -47,8 +55,26 @@ public class Notepad extends Frame {
             mb.setHelpMenu(mHelp); //mHelp를 HelpMenu로 지정
 
             setMenuBar(mb); //Frame에 MenuBar 포함
+
+            //메뉴 이벤트 핸들러 등록
+            EventHandler handler = new EventHandler();
+            miNew.addActionListener(handler);
+            miExit.addActionListener(handler);
+        }
+        //메뉴를 클릭했을 때 메뉴별 처리코드
+        class EventHandler implements ActionListener{
+            public void actionPerformed(ActionEvent e){
+                String cmd = e.getActionCommand();
+
+                if(cmd.equals("새로 만들기(N)"))
+                    content.setText("");
+                if(cmd.equals("끝내기(X)"))
+                    System.exit(0); //프로그램 종료
+
+            }
         }
     }
+
 
     private void addEvent() {
         addWindowListener(new WindowListener() {
