@@ -5,9 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.beans.EventHandler;
-
-import static com.sun.java.accessibility.util.AWTEventMonitor.addActionListener;
+import java.io.*;
 
 public class Notepad extends Frame {
     public Notepad() {
@@ -60,16 +58,74 @@ public class Notepad extends Frame {
             EventHandler handler = new EventHandler();
             miNew.addActionListener(handler);
             miExit.addActionListener(handler);
+            miSaveAs.addActionListener(handler);
+            miOpen.addActionListener(handler);
         }
+
+        //TextArea의 내용을 지정된 파일에 저장하는 메서드
+        void saveAs(String fileName) {
+            FileWriter fw;
+            BufferedWriter bw;
+
+            try {
+                fw = new FileWriter(fileName);
+                bw = new BufferedWriter(fw);
+                bw.write(content.getText()); //TextArea 내용 저장
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //선택된 파일의 내용을 읽어서 TextArea에 보여주는 메서드
+        void fileOpen(String fileName) {
+            FileReader fr;
+            BufferedReader br;
+            StringWriter sw;
+
+            try {
+                fr = new FileReader(fileName);
+                br = new BufferedReader(fr);
+                sw = new StringWriter();
+
+                int ch;
+                //byte[] buffer = new byte[512];
+                while ((ch = br.read()) != -1)
+                    sw.write(ch);
+                br.close();
+                content.setText(sw.toString());
+            } catch (IOException ie) {
+                ie.printStackTrace();
+            }
+        }
+
         //메뉴를 클릭했을 때 메뉴별 처리코드
-        class EventHandler implements ActionListener{
-            public void actionPerformed(ActionEvent e){
+        class EventHandler implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
                 String cmd = e.getActionCommand();
 
-                if(cmd.equals("새로 만들기(N)"))
+                if (cmd.equals("새로 만들기(N)"))
                     content.setText("");
-                if(cmd.equals("끝내기(X)"))
+                if (cmd.equals("끝내기(X)"))
                     System.exit(0); //프로그램 종료
+                if (cmd.equals("다른 이름으로 저장(A)")) {
+                    FileDialog fileSave = new FileDialog(Notepad.this, "다른 이름으로 저장", FileDialog.SAVE);
+                    fileSave.setDirectory("C:\\Users\\HEE GYEONG\\IdeaProjects\\codesquad_cocoa\\res");
+                    fileSave.setVisible(true);
+                    fileName = fileSave.getDirectory() + fileSave.getFile();
+                    System.out.println(fileName);
+                    //현재 TextArea의 내용을 선택된 파일에 저장
+                    saveAs(fileName);
+                }
+                if(cmd.equals("열기(O)")){
+                    FileDialog fileOpen = new FileDialog(Notepad.this,"열기");
+                    fileOpen.setDirectory("C:\\Users\\HEE GYEONG\\IdeaProjects\\codesquad_cocoa\\res");
+                    fileOpen.setVisible(true);
+                    fileName = fileOpen.getDirectory() + fileOpen.getFile();
+                    System.out.println(fileName);
+                    //선택된 파일의 내용을 TextArea에 보여줌
+                    fileOpen(fileName);
+                }
 
             }
         }
