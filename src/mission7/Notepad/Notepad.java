@@ -1,10 +1,7 @@
 package Notepad;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.*;
 
 public class Notepad extends Frame {
@@ -18,25 +15,47 @@ public class Notepad extends Frame {
         String fileName;
         TextArea content;
         MenuBar mb;
-        java.awt.Menu mFile, mEdit, mFormat, mView, mHelp;
-        java.awt.MenuItem miNew, miOpen, miSaveAs, miExit;
+        java.awt.Menu mFile, mEdit, mFormat, mView, mHelp; //MenuBar
+        java.awt.MenuItem miNew, miOpen, miSaveAs, miExit; //mFile
+        java.awt.MenuItem miFont; //mFormat
+        java.awt.Menu mZoom; //mView
+        java.awt.MenuItem miZoomIn, miZoomOut, miDefaultZoom; //mView
+        CheckboxMenuItem miWordWrap, miStatusBar; //mFormat, mView
+        MenuItem miViewHelp, miSendFeedback, miAboutNotepad;
 
         Menu(String title) {
             content = new TextArea();
             add(content);
 
             mb = new MenuBar();
+            //파일 메뉴
             mFile = new java.awt.Menu("파일(F)");
-
             miNew = new MenuItem("새로 만들기(N)");
             miOpen = new MenuItem("열기(O)");
             miSaveAs = new MenuItem("다른 이름으로 저장(A)");
             miExit = new MenuItem("끝내기(X)");
 
+            //편집 메뉴
             mEdit = new java.awt.Menu("편집(E)");
+
+            //서식 메뉴
             mFormat = new java.awt.Menu("서식(O)");
+            miWordWrap = new CheckboxMenuItem("자동 줄 바꿈(W)");
+            miFont = new MenuItem("글꼴(F)");
+
+            //보기 메뉴
             mView = new java.awt.Menu("보기(V)");
+            mZoom = new java.awt.Menu("확대하기/축소하기");
+            miZoomIn = new MenuItem("확대(I)");
+            miZoomOut = new MenuItem("축소(O)");
+            miDefaultZoom = new MenuItem("확대하기/축소하기 기본값 복원");
+            miStatusBar = new CheckboxMenuItem("상태 표시줄(S)");
+
+            //도움말 메뉴
             mHelp = new java.awt.Menu("도움말(H)");
+            miViewHelp = new MenuItem("도움말 보기(H)");
+            miSendFeedback = new MenuItem("피드백 보내기(F)");
+            miAboutNotepad = new MenuItem("메모장 정보(A)");
 
             //mFile에 MenuItem 추가
             mFile.add(miNew);
@@ -44,6 +63,23 @@ public class Notepad extends Frame {
             mFile.add(miSaveAs);
             mFile.addSeparator(); //메뉴 분리선
             mFile.add(miExit);
+
+            //mFormat에 MenuItem 추가
+            mFormat.add(miWordWrap);
+            mFormat.add(miFont);
+
+            //mView에 MenuItem 추가
+            mView.add(mZoom);
+            mZoom.add(miZoomIn);
+            mZoom.add(miZoomOut);
+            mZoom.add(miDefaultZoom);
+            mView.add(miStatusBar);
+
+            //mHelp에 MenuItem 추가
+            mHelp.add(miViewHelp);
+            mHelp.add(miSendFeedback);
+            mHelp.addSeparator(); //메뉴 분리선
+            mHelp.add(miAboutNotepad);
 
             //Menubar에 Menu를 추가
             mb.add(mFile);
@@ -56,10 +92,16 @@ public class Notepad extends Frame {
 
             //메뉴 이벤트 핸들러 등록
             EventHandler handler = new EventHandler();
+            //mFile
             miNew.addActionListener(handler);
             miExit.addActionListener(handler);
             miSaveAs.addActionListener(handler);
             miOpen.addActionListener(handler);
+
+            //mView
+            miZoomIn.addActionListener(handler);
+            miZoomOut.addActionListener(handler);
+            //miStatusBar.addItemListener(handler2);
         }
 
         //TextArea의 내용을 지정된 파일에 저장하는 메서드
@@ -88,7 +130,7 @@ public class Notepad extends Frame {
                 br = new BufferedReader(fr);
                 sw = new StringWriter();
 
-                int ch;
+                int ch = 0;
                 //byte[] buffer = new byte[512];
                 while ((ch = br.read()) != -1)
                     sw.write(ch);
@@ -104,29 +146,37 @@ public class Notepad extends Frame {
             public void actionPerformed(ActionEvent e) {
                 String cmd = e.getActionCommand();
 
-                if (cmd.equals("새로 만들기(N)"))
+                if (cmd.equals("새로 만들기(N)")) {
                     content.setText("");
+                    setTitle("제목 없음 - Windows 메모장");
+                }
                 if (cmd.equals("끝내기(X)"))
                     System.exit(0); //프로그램 종료
                 if (cmd.equals("다른 이름으로 저장(A)")) {
                     FileDialog fileSave = new FileDialog(Notepad.this, "다른 이름으로 저장", FileDialog.SAVE);
-                    fileSave.setDirectory("C:\\Users\\HEE GYEONG\\IdeaProjects\\codesquad_cocoa\\res");
+                    //fileSave.setDirectory("C:\\Users\\HEE GYEONG\\IdeaProjects\\codesquad_cocoa\\res");
                     fileSave.setVisible(true);
                     fileName = fileSave.getDirectory() + fileSave.getFile();
                     System.out.println(fileName);
                     //현재 TextArea의 내용을 선택된 파일에 저장
                     saveAs(fileName);
+                    setTitle(fileSave.getFile());
                 }
-                if(cmd.equals("열기(O)")){
-                    FileDialog fileOpen = new FileDialog(Notepad.this,"열기");
-                    fileOpen.setDirectory("C:\\Users\\HEE GYEONG\\IdeaProjects\\codesquad_cocoa\\res");
+                if (cmd.equals("열기(O)")) {
+                    FileDialog fileOpen = new FileDialog(Notepad.this, "열기");
+                    //fileOpen.setDirectory("C:\\Users\\HEE GYEONG\\IdeaProjects\\codesquad_cocoa\\res");
                     fileOpen.setVisible(true);
                     fileName = fileOpen.getDirectory() + fileOpen.getFile();
                     System.out.println(fileName);
                     //선택된 파일의 내용을 TextArea에 보여줌
                     fileOpen(fileName);
+                    setTitle(fileOpen.getFile());
                 }
-
+                if(cmd.equals("상태 표시줄(S)")){
+                    setLayout(new BorderLayout());
+                    Button south = new Button("South");
+                    add(south, "Status Bar");
+                }
             }
         }
     }
