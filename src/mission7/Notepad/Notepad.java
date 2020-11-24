@@ -4,10 +4,25 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class Notepad extends Frame{
+public class Notepad extends Frame {
     public Notepad() {
         initUI();
         addEvent();
+        Menu m = new Menu("Text Editor");
+    }
+
+    class Menu {
+        MenuBar mb;
+        java.awt.Menu mFile, mEdit;
+
+        Menu(String title) {
+            mb = new MenuBar();
+            mFile = new java.awt.Menu("File");
+            mEdit = new java.awt.Menu("Edit");
+
+            mb.add(mFile);
+            setMenuBar(mb);
+        }
     }
 
     private void addEvent() {
