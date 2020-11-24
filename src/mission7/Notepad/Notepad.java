@@ -13,15 +13,24 @@ public class Notepad extends Frame {
 
     class Menu {
         MenuBar mb;
-        java.awt.Menu mFile, mEdit;
+        java.awt.Menu mFile, mEdit, mFormat, mView, mHelp;
 
         Menu(String title) {
             mb = new MenuBar();
-            mFile = new java.awt.Menu("File");
-            mEdit = new java.awt.Menu("Edit");
+            mFile = new java.awt.Menu("파일(F)");
+            mEdit = new java.awt.Menu("편집(E)");
+            mFormat = new java.awt.Menu("서식(O)");
+            mView = new java.awt.Menu("보기(V)");
+            mHelp = new java.awt.Menu("도움말(H)");
 
+            //Menubar에 Menu를 추가
             mb.add(mFile);
-            setMenuBar(mb);
+            mb.add(mEdit);
+            mb.add(mFormat);
+            mb.add(mView);
+            mb.setHelpMenu(mHelp); //mHelp를 HelpMenu로 지정
+
+            setMenuBar(mb); //Frame에 MenuBar 포함
         }
     }
 
