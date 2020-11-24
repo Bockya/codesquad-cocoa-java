@@ -12,16 +12,32 @@ public class Notepad extends Frame {
     }
 
     class Menu {
+        String fileName;
+        TextArea content;
         MenuBar mb;
         java.awt.Menu mFile, mEdit, mFormat, mView, mHelp;
+        java.awt.MenuItem miNew, miOpen, miSaveAs, miExit;
 
         Menu(String title) {
             mb = new MenuBar();
             mFile = new java.awt.Menu("파일(F)");
+
+            miNew = new MenuItem("새로 만들기(N)");
+            miOpen = new MenuItem("열기(O)");
+            miSaveAs = new MenuItem("다른 이름으로 저장(A)");
+            miExit = new MenuItem("끝내기(X)");
+
             mEdit = new java.awt.Menu("편집(E)");
             mFormat = new java.awt.Menu("서식(O)");
             mView = new java.awt.Menu("보기(V)");
             mHelp = new java.awt.Menu("도움말(H)");
+
+            //mFile에 MenuItem 추가
+            mFile.add(miNew);
+            mFile.add(miOpen);
+            mFile.add(miSaveAs);
+            mFile.addSeparator(); //메뉴 분리선
+            mFile.add(miExit);
 
             //Menubar에 Menu를 추가
             mb.add(mFile);
@@ -77,7 +93,7 @@ public class Notepad extends Frame {
 
     private void initUI() {
         setTitle("제목 없음 - Windows 메모장");
-        setSize(500, 300);
+        setSize(500, 400);
     }
 
     public static void main(String[] args) {
