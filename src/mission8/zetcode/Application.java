@@ -9,7 +9,7 @@ public class Application extends JFrame {
     }
 
     private void initUI() {
-        add(new Board()); //Board to the cnter of the JFrame container
+        add(new AppBoard()); //Board to the cnter of the JFrame container
         setSize(250, 200); //size of the window
         setTitle("Application");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //close when clik on the close button

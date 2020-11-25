@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
-public class Board extends JPanel {
+public class DonutBoard extends JPanel {
     public void paintComponent(Graphics g) { //painting
         super.paintComponent(g);
         drawDount(g);
