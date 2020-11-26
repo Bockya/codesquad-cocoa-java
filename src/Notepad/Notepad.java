@@ -8,13 +8,60 @@ public class Notepad extends Frame {
     public Notepad() {
         initUI();
         addEvent();
-        Menu m = new Menu("Text Editor");
     }
 
-    class Menu {
+    private void initUI() {
+        //add(new MyMenu("Text Editor"));
+        MyMenu m = new MyMenu("Text Editor");
+        setTitle("제목 없음 - Windows 메모장");
+        setSize(500, 400);
+    }
+
+    private void addEvent() {
+        addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) { //Frame의 닫기 버튼을 눌렀을 때 호출
+                e.getWindow().setVisible(false); //Frame 화면에서 보이지 않도록 하기
+                e.getWindow().dispose(); //메모리에서 제거
+                System.exit(0); //프로그램 종료
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
+    }
+
+    class MyMenu {
         String fileName;
         TextArea content;
-        MenuBar mb;
+        java.awt.MenuBar mb;
         java.awt.Menu mFile, mEdit, mFormat, mView, mHelp; //MenuBar
         java.awt.MenuItem miNew, miOpen, miSaveAs, miExit; //mFile
         java.awt.MenuItem miFont; //mFormat
@@ -23,36 +70,42 @@ public class Notepad extends Frame {
         CheckboxMenuItem miWordWrap, miStatusBar; //mFormat, mView
         MenuItem miViewHelp, miSendFeedback, miAboutNotepad;
 
-        Menu(String title) {
+        MyMenu(String title) {
             content = new TextArea();
             add(content);
 
             mb = new MenuBar();
             //파일 메뉴
-            mFile = new java.awt.Menu("파일(F)");
+            mFile = new Menu("파일(F)");
             miNew = new MenuItem("새로 만들기(N)");
+            miNew.setShortcut(new MenuShortcut(KeyEvent.VK_N)); //ctrl + N
             miOpen = new MenuItem("열기(O)");
+            miOpen.setShortcut(new MenuShortcut(KeyEvent.VK_O)); //ctrl + O
             miSaveAs = new MenuItem("다른 이름으로 저장(A)");
+            miSaveAs.setShortcut(new MenuShortcut(KeyEvent.VK_S)); //ctrl + S
             miExit = new MenuItem("끝내기(X)");
 
             //편집 메뉴
-            mEdit = new java.awt.Menu("편집(E)");
+            mEdit = new Menu("편집(E)");
 
             //서식 메뉴
-            mFormat = new java.awt.Menu("서식(O)");
+            mFormat = new Menu("서식(O)");
             miWordWrap = new CheckboxMenuItem("자동 줄 바꿈(W)");
             miFont = new MenuItem("글꼴(F)");
 
             //보기 메뉴
-            mView = new java.awt.Menu("보기(V)");
-            mZoom = new java.awt.Menu("확대하기/축소하기");
+            mView = new Menu("보기(V)");
+            mZoom = new Menu("확대하기/축소하기");
             miZoomIn = new MenuItem("확대(I)");
+            miZoomIn.setShortcut(new MenuShortcut(KeyEvent.VK_PLUS)); //ctrl + 더하기
             miZoomOut = new MenuItem("축소(O)");
+            miZoomOut.setShortcut(new MenuShortcut(KeyEvent.VK_MINUS)); //ctrl + 빼기
             miDefaultZoom = new MenuItem("확대하기/축소하기 기본값 복원");
+            miDefaultZoom.setShortcut(new MenuShortcut(KeyEvent.VK_0)); //ctrl + 0
             miStatusBar = new CheckboxMenuItem("상태 표시줄(S)");
 
             //도움말 메뉴
-            mHelp = new java.awt.Menu("도움말(H)");
+            mHelp = new Menu("도움말(H)");
             miViewHelp = new MenuItem("도움말 보기(H)");
             miSendFeedback = new MenuItem("피드백 보내기(F)");
             miAboutNotepad = new MenuItem("메모장 정보(A)");
@@ -172,60 +225,13 @@ public class Notepad extends Frame {
                     fileOpen(fileName);
                     setTitle(fileOpen.getFile());
                 }
-                if(cmd.equals("상태 표시줄(S)")){
+                if (cmd.equals("상태 표시줄(S)")) {
                     setLayout(new BorderLayout());
                     Button south = new Button("South");
                     add(south, "Status Bar");
                 }
             }
         }
-    }
-
-
-    private void addEvent() {
-        addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowClosing(WindowEvent e) { //Frame의 닫기 버튼을 눌렀을 때 호출
-                e.getWindow().setVisible(false); //Frame 화면에서 보이지 않도록 하기
-                e.getWindow().dispose(); //메모리에서 제거
-                System.exit(0); //프로그램 종료
-            }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
-        });
-    }
-
-    private void initUI() {
-        setTitle("제목 없음 - Windows 메모장");
-        setSize(500, 400);
     }
 
     public static void main(String[] args) {
