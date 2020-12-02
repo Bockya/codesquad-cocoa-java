@@ -19,10 +19,10 @@ public class MenuFile extends Frame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                //Frame ë‹«ê¸° ë²„íŠ¼ì„ ëˆŒë €ì„ ë•Œ í˜¸ì¶œ
-                e.getWindow().setVisible(false); //Frame í™”ë©´ì—ì„œ ë³´ì´ì§€ ì•Šë„ë¡ í•˜ê¸°
-                e.getWindow().dispose(); //ë©”ëª¨ë¦¬ì—ì„œ ì œê±°
-                System.exit(0); //í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+                //Frame ´İ±â ¹öÆ°À» ´­·¶À» ¶§ È£Ãâ
+                e.getWindow().setVisible(false); //Frame È­¸é¿¡¼­ º¸ÀÌÁö ¾Êµµ·Ï ÇÏ±â
+                e.getWindow().dispose(); //¸Ş¸ğ¸®¿¡¼­ Á¦°Å
+                System.exit(0); //ÇÁ·Î±×·¥ Á¾·á
             }
 
             @Override
@@ -54,8 +54,8 @@ public class MenuFile extends Frame {
 
     private void initUI() {
         MyMenuBar m = new MyMenuBar("Text Editor");
-        setTitle("ì œëª© ì—†ìŒ - Windows ë©”ëª¨ì¥");
-        setSize(500, 400);
+        setTitle("Á¦¸ñ ¾øÀ½ - Windows ¸Ş¸ğÀå");
+        setSize(500, 600);
     }
 
     public static void main(String[] args) {
@@ -66,8 +66,9 @@ public class MenuFile extends Frame {
     }
 
     private class MyMenuBar {
-        String fileName;
+        String fileName, copiedText;
         TextArea content;
+
         MenuBar mb;
         Menu mFile, mEdit, mFormat, mView, mHelp; //MenuBar
         MenuItem miNew, miNewWindow, miOpen, miSave, miSaveAs, miPageSetup, miPrint, miExit; //mFile
@@ -83,75 +84,106 @@ public class MenuFile extends Frame {
             add(content);
 
             mb = new MenuBar();
-            //íŒŒì¼ ë©”ë‰´
-            mFile = new Menu("íŒŒì¼(F)");
-            miNew = new MenuItem("ìƒˆë¡œ ë§Œë“¤ê¸°(N)");
+            //ÆÄÀÏ ¸Ş´º
+            mFile = new Menu("ÆÄÀÏ(F)");
+            miNew = new MenuItem("»õ·Î ¸¸µé±â(N)");
             miNew.setShortcut(new MenuShortcut(KeyEvent.VK_N)); //ctrl + N
-            miOpen = new MenuItem("ì—´ê¸°(O)");
+            miOpen = new MenuItem("¿­±â(O)");
             miOpen.setShortcut(new MenuShortcut(KeyEvent.VK_O)); //ctrl + O
-            miSaveAs = new MenuItem("ë‹¤ë¥¸ ì´ë¦„ìœ¼ë¡œ ì €ì¥(A)");
+            miSaveAs = new MenuItem("´Ù¸¥ ÀÌ¸§À¸·Î ÀúÀå(A)");
             miSaveAs.setShortcut(new MenuShortcut(KeyEvent.VK_S, true)); //ctrl + Shift + s
-            miExit = new MenuItem("ëë‚´ê¸°(X)");
+            miExit = new MenuItem("³¡³»±â(X)");
 
-            //í¸ì§‘ ë©”ë‰´
-            mEdit = new Menu("í¸ì§‘(E)");
+            //ÆíÁı ¸Ş´º
+            mEdit = new Menu("ÆíÁı(E)");
+            miUndo = new MenuItem("½ÇÇà Ãë¼Ò(U)");
+            miCut = new MenuItem("Àß¶ó³»±â(T)");
+            miCopy = new MenuItem("º¹»ç(C)");
+            miPaste = new MenuItem("ºÙ¿©³Ö±â(P)");
+            miDelete = new MenuItem("»èÁ¦(L)");
+            miSearchwithBeing = new MenuItem("BingÀ¸·Î °Ë»ö(S)...");
+            miFind = new MenuItem("Ã£±â(F)...");
+            miFindNext = new MenuItem("´ÙÀ½ Ã£±â(N)");
+            miFindPrevious = new MenuItem("ÀÌÀü Ã£±â(V)");
+            miReplace = new MenuItem("¹Ù²Ù±â(R)...");
+            miGoTo = new MenuItem("ÀÌµ¿(G)...");
+            miSelectAll = new MenuItem("¸ğµÎ ¼±ÅÃ(A)");
+            miTimeDate = new MenuItem("½Ã°£/³¯Â¥(D)");
 
-            //ì„œì‹ ë©”ë‰´
-            mFormat = new Menu("ì„œì‹(O)");
-            miWordWrap = new CheckboxMenuItem("ìë™ ì¤„ ë°”ê¿ˆ(W)");
-            miFont = new MenuItem("ê¸€ê¼´(F)");
+            //¼­½Ä ¸Ş´º
+            mFormat = new Menu("¼­½Ä(O)");
+            miWordWrap = new CheckboxMenuItem("ÀÚµ¿ ÁÙ ¹Ù²Ş(W)");
+            miFont = new MenuItem("±Û²Ã(F)");
 
-            //ë³´ê¸° ë©”ë‰´
-            mView = new Menu("ë³´ê¸°(V)");
-            mZoom = new Menu("í™•ëŒ€í•˜ê¸°/ì¶•ì†Œí•˜ê¸°");
-            miZoomIn = new MenuItem("í™•ëŒ€(I)");
-            miZoomIn.setShortcut(new MenuShortcut(KeyEvent.VK_PLUS)); //ctrl + ë”í•˜ê¸°
-            miZoomOut = new MenuItem("ì¶•ì†Œ(O)");
-            miZoomOut.setShortcut(new MenuShortcut(KeyEvent.VK_MINUS)); //ctrl + ë¹¼ê¸°
-            miDefaultZoom = new MenuItem("í™•ëŒ€í•˜ê¸°/ì¶•ì†Œí•˜ê¸° ê¸°ë³¸ê°’ ë³µì›");
+            //º¸±â ¸Ş´º
+            mView = new Menu("º¸±â(V)");
+            mZoom = new Menu("È®´ëÇÏ±â/Ãà¼ÒÇÏ±â");
+            miZoomIn = new MenuItem("È®´ë(I)");
+            miZoomIn.setShortcut(new MenuShortcut(KeyEvent.VK_PLUS)); //ctrl + ´õÇÏ±â
+            miZoomOut = new MenuItem("Ãà¼Ò(O)");
+            miZoomOut.setShortcut(new MenuShortcut(KeyEvent.VK_MINUS)); //ctrl + »©±â
+            miDefaultZoom = new MenuItem("È®´ëÇÏ±â/Ãà¼ÒÇÏ±â ±âº»°ª º¹¿ø");
             miDefaultZoom.setShortcut(new MenuShortcut(KeyEvent.VK_0)); //ctrl + 0
-            miStatusBar = new CheckboxMenuItem("ìƒíƒœ í‘œì‹œì¤„(S)");
+            miStatusBar = new CheckboxMenuItem("»óÅÂ Ç¥½ÃÁÙ(S)");
 
-            //ë„ì›€ë§ ë©”ë‰´
-            mHelp = new Menu("ë„ì›€ë§(H)");
-            miViewHelp = new MenuItem("ë„ì›€ë§ ë³´ê¸°(H)");
-            miSendFeedback = new MenuItem("í”¼ë“œë°± ë³´ë‚´ê¸°(F)");
-            miAboutNotepad = new MenuItem("ë©”ëª¨ì¥ ì •ë³´(A)");
+            //µµ¿ò¸» ¸Ş´º
+            mHelp = new Menu("µµ¿ò¸»(H)");
+            miViewHelp = new MenuItem("µµ¿ò¸» º¸±â(H)");
+            miSendFeedback = new MenuItem("ÇÇµå¹é º¸³»±â(F)");
+            miAboutNotepad = new MenuItem("¸Ş¸ğÀå Á¤º¸(A)");
 
-            //mFileì— MenuItem ì¶”ê°€
+            //mFile¿¡ MenuItem Ãß°¡
             mFile.add(miNew);
             mFile.add(miOpen);
             mFile.add(miSaveAs);
-            mFile.addSeparator(); //ë©”ë‰´ ë¶„ë¦¬ì„ 
+            mFile.addSeparator(); //¸Ş´º ºĞ¸®¼±
             mFile.add(miExit);
 
-            //mFormatì— MenuItem ì¶”ê°€
+            //mEdit¿¡ MenuItem Ãß°¡
+            mEdit.add(miUndo);
+            mEdit.addSeparator();
+            mEdit.add(miCut);
+            mEdit.add(miCopy);
+            mEdit.add(miPaste);
+            mEdit.add(miDelete);
+            mEdit.addSeparator();
+            mEdit.add(miSearchwithBeing);
+            mEdit.add(miFind);
+            mEdit.add(miFindNext);
+            mEdit.add(miFindPrevious);
+            mEdit.add(miReplace);
+            mEdit.add(miGoTo);
+            mEdit.addSeparator();
+            mEdit.add(miSelectAll);
+            mEdit.add(miTimeDate);
+
+            //mFormat¿¡ MenuItem Ãß°¡
             mFormat.add(miWordWrap);
             mFormat.add(miFont);
 
-            //mViewì— MenuItem ì¶”ê°€
+            //mView¿¡ MenuItem Ãß°¡
             mView.add(mZoom);
             mZoom.add(miZoomIn);
             mZoom.add(miZoomOut);
             mZoom.add(miDefaultZoom);
             mView.add(miStatusBar);
 
-            //mHelpì— MenuItem ì¶”ê°€
+            //mHelp¿¡ MenuItem Ãß°¡
             mHelp.add(miViewHelp);
             mHelp.add(miSendFeedback);
-            mHelp.addSeparator(); //ë©”ë‰´ ë¶„ë¦¬ì„ 
+            mHelp.addSeparator(); //¸Ş´º ºĞ¸®¼±
             mHelp.add(miAboutNotepad);
 
-            //Menubarì— Menuë¥¼ ì¶”ê°€
+            //Menubar¿¡ Menu¸¦ Ãß°¡
             mb.add(mFile);
             mb.add(mEdit);
             mb.add(mFormat);
             mb.add(mView);
-            mb.setHelpMenu(mHelp); //mHelpë¥¼ HelpMenuë¡œ ì§€ì •
+            mb.setHelpMenu(mHelp); //mHelp¸¦ HelpMenu·Î ÁöÁ¤
 
-            setMenuBar(mb); //Frameì— MenuBar í¬í•¨
+            setMenuBar(mb); //Frame¿¡ MenuBar Æ÷ÇÔ
 
-            //ë©”ë‰´ ì´ë²¤íŠ¸ í•¸ë“¤ëŸ¬ ë“±ë¡
+            //¸Ş´º ÀÌº¥Æ® ÇÚµé·¯ µî·Ï
             EventHandler handler = new EventHandler();
             //mFile
             miNew.addActionListener(handler);
@@ -159,13 +191,28 @@ public class MenuFile extends Frame {
             miSaveAs.addActionListener(handler);
             miOpen.addActionListener(handler);
 
+            //mEdit
+            miUndo.addActionListener(handler);
+            miCut.addActionListener(handler);
+            miCopy.addActionListener(handler);
+            miPaste.addActionListener(handler);
+            miDelete.addActionListener(handler);
+            miSearchwithBeing.addActionListener(handler);
+            miFind.addActionListener(handler);
+            miFindNext.addActionListener(handler);
+            miFindPrevious.addActionListener(handler);
+            miReplace.addActionListener(handler);
+            miGoTo.addActionListener(handler);
+            miSelectAll.addActionListener(handler);
+            miTimeDate.addActionListener(handler);
+
             //mView
             miZoomIn.addActionListener(handler);
             miZoomOut.addActionListener(handler);
             //miStatusBar.addItemListener(handler2);
         }
 
-        //TextArea ë‚´ìš©ì„ ì§€ì •ëœ íŒŒì¼ì— ì €ì¥í•˜ëŠ” ë©”ì„œë“œ
+        //TextArea ³»¿ëÀ» ÁöÁ¤µÈ ÆÄÀÏ¿¡ ÀúÀåÇÏ´Â ¸Ş¼­µå
         void saveAs(String fileName) {
             FileWriter fw;
             BufferedWriter bw;
@@ -173,14 +220,14 @@ public class MenuFile extends Frame {
             try {
                 fw = new FileWriter(fileName);
                 bw = new BufferedWriter(fw);
-                bw.write(content.getText()); //TextArea ë‚´ìš© ì €ì¥
+                bw.write(content.getText()); //TextArea ³»¿ë ÀúÀå
                 bw.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        //ì„ íƒëœ íŒŒì¼ì˜ ë‚´ìš©ì„ ì½ì–´ì„œ TextAreaì— ë³´ì—¬ì£¼ëŠ” ë©”ì„œë“œ
+        //¼±ÅÃµÈ ÆÄÀÏÀÇ ³»¿ëÀ» ÀĞ¾î¼­ TextArea¿¡ º¸¿©ÁÖ´Â ¸Ş¼­µå
         void fileOpen(String fileName) {
             FileReader fr;
             BufferedReader br;
@@ -202,38 +249,42 @@ public class MenuFile extends Frame {
             }
         }
 
-        //ë©”ë‰´ë¥¼ í´ë¦­í–ˆì„ ë•Œ ë©”ë‰´ë³„ ì²˜ë¦¬ì½”ë“œ
+        //¸Ş´º¸¦ Å¬¸¯ÇßÀ» ¶§ ¸Ş´ºº° Ã³¸®ÄÚµå
         class EventHandler implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 String cmd = e.getActionCommand();
 
-                if (cmd.equals("ìƒˆë¡œ ë§Œë“¤ê¸°(N)")) {
+                if (e.getSource() == miNew) {
                     content.setText("");
-                    setTitle("ì œëª© ì—†ìŒ - Windows ë©”ëª¨ì¥");
+                    setTitle("Á¦¸ñ ¾øÀ½ - Windows ¸Ş¸ğÀå");
                 }
-                if (cmd.equals("ëë‚´ê¸°(X)"))
-                    System.exit(0); //í”„ë¡œê·¸ë¨ ì¢…ë£Œ
-                if (cmd.equals("ë‹¤ë¥¸ ì´ë¦„ìœ¼ë¡œ ì €ì¥(A)")) {
-                    FileDialog fileSave = new FileDialog(MenuFile.this, "ë‹¤ë¥¸ ì´ë¦„ìœ¼ë¡œ ì €ì¥", FileDialog.SAVE);
+                if (e.getSource() == miExit)
+                    System.exit(0); //ÇÁ·Î±×·¥ Á¾·á
+                if (e.getSource() == miSaveAs) {
+                    FileDialog fileSave = new FileDialog(MenuFile.this, "´Ù¸¥ ÀÌ¸§À¸·Î ÀúÀå", FileDialog.SAVE);
                     //fileSave.setDirectory("C:\\Users\\HEE GYEONG\\IdeaProjects\\codesquad_cocoa\\res");
                     fileSave.setVisible(true);
                     fileName = fileSave.getDirectory() + fileSave.getFile();
                     System.out.println(fileName);
-                    //í˜„ì¬ TextArea ë‚´ìš©ì„ ì„ íƒëœ íŒŒì¼ì— ì €ì¥
+                    //ÇöÀç TextArea ³»¿ëÀ» ¼±ÅÃµÈ ÆÄÀÏ¿¡ ÀúÀå
                     saveAs(fileName);
                     setTitle(fileSave.getFile());
                 }
-                if (cmd.equals("ì—´ê¸°(O)")) {
-                    FileDialog fileOpen = new FileDialog(MenuFile.this, "ì—´ê¸°");
+                if (e.getSource() == miOpen) {
+                    FileDialog fileOpen = new FileDialog(MenuFile.this, "¿­±â");
                     //fileOpen.setDirectory("C:\\Users\\HEE GYEONG\\IdeaProjects\\codesquad_cocoa\\res");
                     fileOpen.setVisible(true);
                     fileName = fileOpen.getDirectory() + fileOpen.getFile();
                     System.out.println(fileName);
-                    //ì„ íƒëœ íŒŒì¼ì˜ ë‚´ìš©ì„ TextAreaì— ë³´ì—¬ì¤Œ
+                    //¼±ÅÃµÈ ÆÄÀÏÀÇ ³»¿ëÀ» TextArea¿¡ º¸¿©ÁÜ
                     fileOpen(fileName);
                     setTitle(fileOpen.getFile());
                 }
-                if (cmd.equals("ìƒíƒœ í‘œì‹œì¤„(S)")) {
+                if (e.getSource() == miCopy) {
+                    copiedText = content.getSelectedText(); //¼±ÅÃµÈ ºÎºĞ¸¸ º¹»ç
+                    System.out.println(copiedText);
+                }
+                if (cmd.equals("»óÅÂ Ç¥½ÃÁÙ(S)")) {
                     setLayout(new BorderLayout());
                     Button south = new Button("South");
                     add(south, "Status Bar");
